@@ -1,16 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
+import { useScrollFadeIn } from '../useScrollFadeIn';
 
 const HeroSection = () => {
   const [typedText, setTypedText] = useState('');
   const [textIndex, setTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(120);
-  const timeoutRef = useRef<number | null>(null);  // Corrected type
+  const timeoutRef = useRef<number | null>(null);
+  const [fadeRef, isVisible] = useScrollFadeIn<HTMLDivElement>();
 
-    const texts = ['AI & ML Engineer', 'Researcher', 'Developer'];
+  // Original comment for cursor light effect (before trail implementation)
+  // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLElement>(null);
+  // const [isMouseActive, setIsMouseActive] = useState(false); // Original state for mouse activity
+  // const mouseMoveTimeout = useRef<number | null>(null); // Original ref for the timeout
+
+  const texts = ['AI & ML Engineer', 'Researcher', 'Developer'];
 
   useEffect(() => {
-    // Cleanup function to clear timeout
+    // Cleanup function to clear typing timeout
     return (): void => {
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
@@ -51,10 +59,66 @@ const HeroSection = () => {
     };
   }, [typedText, isDeleting, textIndex, typingSpeed]);
 
+  // Original cursor light effect logic (before trail implementation)
+  // const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+  //   if (sectionRef.current) {
+  //     const rect = sectionRef.current.getBoundingClientRect();
+  //     setMousePosition({
+  //       x: event.clientX - rect.left,
+  //       y: event.clientY - rect.top,
+  //     });
+  //     setIsMouseActive(true); // Mouse is active
+
+  //     // Clear any existing timeout and set a new one to turn off light after inactivity
+  //     if (mouseMoveTimeout.current) {
+  //       clearTimeout(mouseMoveTimeout.current);
+  //     }
+  //     mouseMoveTimeout.current = setTimeout(() => {
+  //       setIsMouseActive(false);
+  //     }, 300); // Light disappears after 0.3 seconds of inactivity
+  //   }
+  // };
+
+  // Cleanup for mouseMoveTimeout on component unmount (if any)
+  // useEffect(() => {
+  //   return () => {
+  //     if (mouseMoveTimeout.current) {
+  //       clearTimeout(mouseMoveTimeout.current);
+  //     }
+  //   };
+  // }, []);
+
   return (
-    <section id="home" className="pt-32 pb-20 min-h-screen flex flex-col justify-center">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center text-center">
+    <section
+      id="home"
+      ref={sectionRef} // Attach ref to the section
+      className="relative pt-32 pb-20 min-h-screen flex flex-col justify-center text-white overflow-hidden"
+      // onMouseMove={handleMouseMove} // Removed mouse move listener
+    >
+      {/* Background Image Container */}
+      <div
+        className="absolute inset-0 bg-hero-bg bg-cover bg-center bg-no-repeat bg-fixed"
+        aria-hidden="true"
+      ></div>
+
+      {/* Dark overlay with blur effect */}
+      <div className="absolute inset-0 bg-black opacity-70 backdrop-blur-md-custom z-0"></div>
+
+      {/* Original Cursor Light Effect (commented out) */}
+      {/*
+      <div
+        className={`absolute inset-0 z-[1] transition-opacity duration-300 pointer-events-none ${isMouseActive ? 'opacity-70' : 'opacity-0'}`}
+        style={{
+          background: `radial-gradient(ellipse 600px 80px at ${mousePosition.x}px ${mousePosition.y}px, rgba(100, 150, 255, 0.6) 0%, transparent 85%)`,
+        }}
+      ></div>
+      */}
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div
+          ref={fadeRef}
+          className={`flex flex-col items-center text-center ${isVisible ? 'fade-in-up' : 'fade-init'}`}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Hello, I'm <span className="text-primary">Karthik Pasupuleti</span>
           </h1>
@@ -69,7 +133,7 @@ const HeroSection = () => {
             </h2>
           </div>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10">
+          <p className="text-lg md:text-xl text-white max-w-2xl mb-10">
             Welcome to my portfolio!
 I specialize in building intelligent, real-time applications and AI-powered systems using modern technologies. From smart automation to innovative solutions, I bring ideas to life through clean code, creativity, and collaboration. Let’s create something impactful together.
           </p>
