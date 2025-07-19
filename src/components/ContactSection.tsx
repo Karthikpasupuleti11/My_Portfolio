@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { useScrollFadeIn } from '../useScrollFadeIn';
 
 const EMAILJS_PLACEHOLDER = {
   SERVICE_ID: 'service_19zhd6p',
@@ -19,6 +20,8 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [fadeRef, isVisible] = useScrollFadeIn<HTMLDivElement>();
+  const [gridRef, gridVisible] = useScrollFadeIn<HTMLDivElement>();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,15 +71,20 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center mb-12">
+        <div
+          ref={fadeRef}
+          className={`flex flex-col items-center mb-12 ${isVisible ? 'fade-in-up' : 'fade-init'}`}
+        >
           <h2 className="text-3xl font-bold mb-2 text-foreground">Contact Me</h2>
           <div className="w-20 h-1 bg-primary rounded" />
           <p className="mt-6 text-center max-w-2xl text-muted-foreground">
             Have a question or want to work together? Feel free to reach out to me using the form below or through my contact information.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div
+          ref={gridRef}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-10 ${gridVisible ? 'fade-in-up' : 'fade-init'}`}
+        >
           {/* Form */}
           <div className="bg-background border border-border rounded-lg p-6 shadow-sm">
             <h3 className="text-2xl font-semibold mb-6 text-foreground">Get In Touch</h3>
@@ -165,7 +173,7 @@ const ContactSection = () => {
           </div>
 
           {/* Contact Info & Map */}
-          <div className="space-y-8">
+          <div className="space-y-8" style={{ transitionDelay: '200ms' }}>
             <div className="bg-background border border-border rounded-lg p-6 shadow-sm">
               <h3 className="text-2xl font-semibold mb-6 text-foreground">Contact Information</h3>
               <div className="space-y-4">
