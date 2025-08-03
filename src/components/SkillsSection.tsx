@@ -49,8 +49,7 @@ const SkillsSection = () => {
   const frontendSkills = [
     { name: 'HTML', percentage: 90 },
     { name: 'CSS', percentage: 88 },
-    { name: 'JavaScript', percentage: 80 },
-    { name: 'Flask', percentage: 92 },
+    { name: 'JavaScript', percentage: 70 },
     { name: 'Power BI', percentage: 87 },
     { name: 'Tableau', percentage: 80 },
   ];
@@ -58,10 +57,9 @@ const SkillsSection = () => {
   const backendSkills = [
     { name: 'Python', percentage: 95 },
     { name: 'SQL', percentage: 90 },
+    { name: 'Flask', percentage: 92 },
     { name: 'MongoDB', percentage: 85 },
     { name: 'PostgreSQL', percentage: 80 },
-    { name: 'TimescaleDB', percentage: 78 },
-    { name: 'REST API', percentage: 82 },
   ];
 
   const aimlSkills = [
