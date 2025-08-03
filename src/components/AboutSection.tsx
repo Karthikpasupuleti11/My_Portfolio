@@ -25,7 +25,7 @@ const AboutSection = () => {
               I'm Karthik Pasupuleti, a final-year AIML student with hands-on experience in developing real-world AI solutions using Python, SQL, and machine learning. I'm a 4-time National Hackathon winner, with a strong focus on building intelligent systems that address real-world challenges through innovation and automation.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              I have co-authored multiple IEEE research papers and co-invented patents in the fields of deep learning, intelligent automation, and IoT-based systems. My work spans applications like digital water level monitoring, automated assessment using NLP, and AI-driven health and surveillance technologies.
+              I have authored multiple IEEE research papers and co-invented patents in the fields of deep learning, intelligent automation, and IoT-based systems. My work spans applications like digital water level monitoring, automated assessment using NLP, and AI-driven health and surveillance technologies.
             </p>
 
             {/* Download Resume Button */}
